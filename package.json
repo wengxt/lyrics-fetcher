@@ -1,0 +1,12 @@
+{
+      "name": "lyrics-fetcher",
+      "description": "fetch lyrics from multiple sites",
+      "version": "0.0.1",
+      "private": true,
+      "dependencies": {
+          "express": "3.x",
+          "superagent": "x",
+          "html-to-text": "x",
+          "async": "x"
+      }
+}
