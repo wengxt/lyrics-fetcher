@@ -8,7 +8,7 @@ module.exports = function(arg, next) {
     args = new Array(arg.title, arg.artist);
     keyword = args.filter(function(e) { return e; }).join(" ");
     request.get("https://www.googleapis.com/customsearch/v1element")
-           .query({cx: cx, q: keyword, key: api_key, hl: 'ja', prettyPrint: 'false', num: '10', rsz: 'filtered_cse'})
+           .query({cx: cx, q: keyword.replace(/-/g, ' '), key: api_key, hl: 'ja', prettyPrint: 'false', num: '10', rsz: 'filtered_cse'})
            .end(function(error, songres) {
                if (error) {
                    return next(error);
