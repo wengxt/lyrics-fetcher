@@ -37,14 +37,28 @@ module.exports = function(arg, next) {
                    return next(new Error("not found"));
                }
 
-               request.get('http://www.kasi-time.com/item_js.php')
-                      .query({no: id})
+               request.get('http://www.kasi-time.com/item-' + id + '.html')
+                      .query()
                       .end(function(err, res) {
                           if (err) {
                               return next(err);
                           }
 
-                          var lrc = res.text.replace('document.write(\'', '').replace('\');', '');
+                          var prefix = 'var lyrics = \'';
+                          var suffix = '\';';
+                          var start = res.text.indexOf(prefix);
+                          if (start < 0) {
+                              return next(new Error("parse error"));
+                          }
+
+                          var lrc = res.text.substr(start + prefix.length);
+                          var end = lrc.indexOf(suffix);
+                          if (end < 0) {
+                              return next(new Error("parse error"));
+                          }
+
+                          lrc = lrc.substr(0, end);
+
                           lrc = htmlToText.fromString(lrc);
                           next(null, lrc);
                       });
